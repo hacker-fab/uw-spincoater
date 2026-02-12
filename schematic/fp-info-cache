@@ -1,4 +1,4 @@
-27211357528509307
+27207838097365743
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -107835,13 +107835,6 @@ footprints
 1
 1
 footprints
-BA56-12SURKWA
-
-
-0
-12
-12
-footprints
 BLDC
 
 
@@ -107849,14 +107842,7 @@ BLDC
 3
 3
 footprints
-HF_logo
-
-
-0
-0
-0
-footprints
-Inductor_2424
+HCM1A0805V3-150R
 
 
 0
@@ -107870,9 +107856,9 @@ PPAK3x3
 9
 5
 footprints
-PTV09_Pot
-
-
+TestPoint_THTPad_D5.0mm_Drill3.0mm
+THT pad as test Point, diameter 5.0mm, hole diameter 3.0mm
+test point THT pad
 0
-5
-3
+1
+1
