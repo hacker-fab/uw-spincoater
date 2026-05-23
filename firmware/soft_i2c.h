@@ -24,14 +24,14 @@
 using I2CCallback = void (*)(byte error);
 
 struct I2CJob {
-    byte addr;
-    byte data[SOFT_I2C_MAX_PAYLOAD];
-    byte len;
-    I2CCallback cb;
+  byte addr;
+  byte data[SOFT_I2C_MAX_PAYLOAD];
+  byte len;
+  I2CCallback cb;
 };
 
 class SoftI2C {
-public:
+  public:
     SoftI2C(byte sdaPin, byte sclPin, unsigned long freqHz = 100000UL);
     void begin();
 
@@ -39,17 +39,36 @@ public:
 
     bool tick();
 
-    bool idle() const { return _state == State::IDLE && _count == 0; }
-    
-    byte pending() const { return _count > 0 ? _count - 1 : 0; }
+    bool idle() const {
+      return _state == State::IDLE && _count == 0;
+    }
 
-private:
-    void sdaLow()  { pinMode(_sda, OUTPUT); digitalWrite(_sda, LOW); }
-    void sdaHigh() { pinMode(_sda, INPUT);  }
-    void sclLow()  { pinMode(_scl, OUTPUT); digitalWrite(_scl, LOW); }
-    void sclHigh() { pinMode(_scl, INPUT);  }
-    bool sdaRead() { pinMode(_sda, INPUT); return digitalRead(_sda); }
-    bool sclRead() { return digitalRead(_scl); }
+    byte pending() const {
+      return _count > 0 ? _count - 1 : 0;
+    }
+
+  private:
+    void sdaLow()  {
+      pinMode(_sda, OUTPUT);
+      digitalWrite(_sda, LOW);
+    }
+    void sdaHigh() {
+      pinMode(_sda, INPUT);
+    }
+    void sclLow()  {
+      pinMode(_scl, OUTPUT);
+      digitalWrite(_scl, LOW);
+    }
+    void sclHigh() {
+      pinMode(_scl, INPUT);
+    }
+    bool sdaRead() {
+      pinMode(_sda, INPUT);
+      return digitalRead(_sda);
+    }
+    bool sclRead() {
+      return digitalRead(_scl);
+    }
 
     byte _sda;
     byte _scl;
@@ -58,7 +77,7 @@ private:
     byte _head  = 0;
     byte _tail  = 0;
     byte _count = 0;
-    
+
     uint32_t _halfPeriodUs;
     uint32_t _lastPhaseUs = 0;
 
@@ -68,18 +87,18 @@ private:
     bool _nakError = false;
 
     enum class State : byte {
-        IDLE,
-        START_SDA_LOW,
-        START_SCL_LOW,
-        BIT_SDA_SET,
-        BIT_SCL_HIGH,
-        BIT_SCL_LOW,
-        ACK_SDA_RELEASE,
-        ACK_SCL_HIGH,
-        ACK_SCL_LOW,
-        STOP_SDA_LOW,
-        STOP_SCL_HIGH,
-        STOP_SDA_HIGH,
+      IDLE,
+      START_SDA_LOW,
+      START_SCL_LOW,
+      BIT_SDA_SET,
+      BIT_SCL_HIGH,
+      BIT_SCL_LOW,
+      ACK_SDA_RELEASE,
+      ACK_SCL_HIGH,
+      ACK_SCL_LOW,
+      STOP_SDA_LOW,
+      STOP_SCL_HIGH,
+      STOP_SDA_HIGH,
     };
 
     State _state = State::IDLE;

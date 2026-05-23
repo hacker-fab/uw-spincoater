@@ -31,11 +31,11 @@
 #define LCD_QUEUE_DEPTH 32
 
 class AsyncLCD {
-public:
+  public:
     AsyncLCD(SoftI2C& bus, byte i2cAddr, byte LCD_COLS, byte LCD_ROWS);
-    
+
     void begin();
-    
+
     void tick();
 
     bool idle() const;
@@ -55,20 +55,20 @@ public:
     bool enqueueCommand(byte cmd);
     bool enqueueData(const byte* data, byte len);
 
-private:
+  private:
     SoftI2C& _bus;
     byte _addr;
     const byte _LCD_COLS;
     const byte _LCD_ROWS;
     byte _disp = 0x0C;
-    
+
     enum class OpType : byte { COMMAND, DATA, DELAY_MS };
 
     struct LcdOp {
-        OpType type;
-        byte payload[SOFT_I2C_MAX_PAYLOAD - 1];
-        byte len;
-        unsigned int delayMs;
+      OpType type;
+      byte payload[SOFT_I2C_MAX_PAYLOAD - 1];
+      byte len;
+      unsigned int delayMs;
     };
 
     LcdOp _ops[LCD_QUEUE_DEPTH];

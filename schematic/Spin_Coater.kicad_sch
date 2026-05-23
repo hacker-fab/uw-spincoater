@@ -8511,6 +8511,10 @@
 		(uuid "8d8c992e-05b7-46d9-af9f-bcbf8db08bd7")
 	)
 	(no_connect
+		(at 71.12 59.69)
+		(uuid "91259f71-84cf-4314-b747-a5eac5953dbc")
+	)
+	(no_connect
 		(at 74.93 185.42)
 		(uuid "9ab6b2e9-0604-45f7-91f8-4eefac9065f0")
 	)
@@ -25639,83 +25643,6 @@
 			(project "Spin_Coater"
 				(path "/2a6934bd-4ba7-41c7-a1b4-d8fafbfb083c"
 					(reference "R2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 71.12 59.69 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "fda08e34-0bf5-435c-9c76-b644e1a75aed")
-		(property "Reference" "#PWR019"
-			(at 71.12 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 71.12 63.754 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 71.12 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 71.12 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 71.12 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "0d586872-7ead-48a2-9956-259f6f577e1c")
-		)
-		(instances
-			(project "Spin_Coater"
-				(path "/2a6934bd-4ba7-41c7-a1b4-d8fafbfb083c"
-					(reference "#PWR019")
 					(unit 1)
 				)
 			)

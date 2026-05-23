@@ -1,12 +1,12 @@
 %TF.GenerationSoftware,KiCad,Pcbnew,10.0.1*%
-%TF.CreationDate,2026-05-19T19:09:55-04:00*%
+%TF.CreationDate,2026-05-20T18:46:25-04:00*%
 %TF.ProjectId,Spin_Coater,5370696e-5f43-46f6-9174-65722e6b6963,rev?*%
 %TF.SameCoordinates,Original*%
 %TF.FileFunction,Plated,1,2,PTH,Mixed*%
 %TF.FilePolarity,Positive*%
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 10.0.1) date 2026-05-19 19:09:55*
+G04 Created by KiCad (PCBNEW 10.0.1) date 2026-05-20 18:46:25*
 %MOMM*%
 %LPD*%
 G01*
@@ -466,10 +466,10 @@ D17*
 X114000000Y-119000000D03*
 X119000000Y-119000000D03*
 D18*
-%TO.C,M1C*%
+%TO.C,M1C1*%
 X130000000Y-109000000D03*
-%TO.C,M1A*%
+%TO.C,M1A1*%
 X131750000Y-141500000D03*
-%TO.C,M1B*%
+%TO.C,M1B1*%
 X147250000Y-124250000D03*
 M02*
