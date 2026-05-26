@@ -45,6 +45,7 @@ class AsyncLCD {
     void print(const char* str);
     void print(int val);
     void printSpacePaddedInt(int val);
+    void printZeroPaddedInt(int val);
     void write(byte ch);
     void createChar(byte slot, const byte bitmap[8]);
     void cursor();

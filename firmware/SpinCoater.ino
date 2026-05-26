@@ -66,15 +66,20 @@ volatile int encCount;
 unsigned long currTime;
 unsigned long tloop;
 unsigned long lastTime;
+unsigned long lastStableTime;
+unsigned long timerTime;
 unsigned long lastLCDTick;
+unsigned long lastTimerUpdateTime;
 unsigned long lastSpeedUpdateTime;
 unsigned long lastBtnTime;
 unsigned long stoppedBlinkTimer;
 
+byte timerState;
 bool inputState;
 bool stopState;
 bool stopped = true;
 bool pressed;
+bool stable;
 int setSpeed;
 int tempSetSpeed;
 
@@ -95,6 +100,29 @@ void setMotorSpeed(float vel) {
     outVel = 1467;
   }
   targetVel = outVel * targetFix;
+}
+
+void printElapsedTime() {
+  if (timerState == 1) {
+    LCD.print("00:00");
+  } else if (timerState == 2) {
+    unsigned long dt = currTime - lastStableTime;
+    if (dt <= 3599999999) {
+      LCD.printZeroPaddedInt(dt / 60000000);
+      LCD.print(":");
+      LCD.printZeroPaddedInt(dt / 1000000);
+    } else {
+      LCD.print("59:59");
+    }
+  } else {
+    if (timerTime <= 3599999999) {
+      LCD.printZeroPaddedInt(timerTime / 60000000);
+      LCD.print(":");
+      LCD.printZeroPaddedInt(timerTime / 1000000);
+    } else {
+      LCD.print("59:59");
+    }
+  }
 }
 
 void setup() {
@@ -171,8 +199,8 @@ void setup() {
     LCD.print("Actual:     0");
     LCD.write(0);
     LCD.print("5 RPM");
-    LCD.setCursor(3, 1);
-    LCD.print("   Stopped");
+    LCD.setCursor(0, 1);
+    LCD.print("      Stopped       ");
   
     pinMode(START_BTN, INPUT);
     pinMode(START_LED, OUTPUT);
@@ -219,9 +247,12 @@ void loop() {
         stoppedBlinkTimer = micros();
         stopState = stopped;
         if (stopped) {
+          timerTime = currTime - lastStableTime;
+          timerState = 0;
           digitalWrite(START_LED, LOW);
           setMotorSpeed(0);
         } else {
+          timerState = 1;
           digitalWrite(START_LED, HIGH);
           setMotorSpeed(setSpeed * 6.2832 / 60);
         }
@@ -236,16 +267,17 @@ void loop() {
   }
   
   if (currTime - stoppedBlinkTimer >= 1000000 && !inputState) {
-    LCD.setCursor(3, 1);
+    LCD.setCursor(0, 1);
     if (!stopState) {
       LCD.print("Set: ");
       LCD.printSpacePaddedInt(setSpeed);
-      LCD.print(" RPM");
+      LCD.print(" RPM ");
+      printElapsedTime();
       if (stopped) {
         stopState = true;
       }
     } else if (stopped) {
-      LCD.print("   Stopped       ");
+      LCD.print("      Stopped       ");
       stopState = false;
     }
     stoppedBlinkTimer = micros();
@@ -255,10 +287,11 @@ void loop() {
   if (key) {
       if (key != '*' && key != '#' && !inputState) {
         tempSetSpeed = 0;
-        LCD.setCursor(3, 1);
+        LCD.setCursor(0, 1);
         LCD.print("Set:     0");
-        LCD.print(" RPM");
-        LCD.setCursor(12, 1);
+        LCD.print(" RPM ");
+        printElapsedTime();
+        LCD.setCursor(9, 1);
         LCD.cursor();
         LCD.blink();
         inputState = true;
@@ -267,9 +300,9 @@ void loop() {
         if (key == '*') {
           if (tempSetSpeed > 0) {
             tempSetSpeed /= 10;
-            LCD.setCursor(8, 1);
+            LCD.setCursor(5, 1);
             LCD.printSpacePaddedInt(tempSetSpeed);
-            LCD.setCursor(12, 1);
+            LCD.setCursor(9, 1);
           } else {
             LCD.noCursor();
             LCD.noBlink();
@@ -284,6 +317,7 @@ void loop() {
           }
           setSpeed = tempSetSpeed;
           if (!stopped) {
+            timerState = 1;
             setMotorSpeed(setSpeed * 6.2832 / 60);
           }
           LCD.noCursor();
@@ -291,18 +325,33 @@ void loop() {
           inputState = false;
         } else if (tempSetSpeed < 10000) {
           tempSetSpeed = tempSetSpeed * 10 + key - 0x30;
-          LCD.setCursor(8, 1);
+          LCD.setCursor(5, 1);
           LCD.printSpacePaddedInt(tempSetSpeed);
-          LCD.setCursor(12, 1);
+          LCD.setCursor(9, 1);
         }
       }
+  }
+
+  if (timerState == 2 && currTime - lastTimerUpdateTime >= 1000000) {
+    LCD.setCursor(15, 1);
+    printElapsedTime();
+    lastTimerUpdateTime = micros();
   }
   
   if (currTime - lastSpeedUpdateTime >= 2000000) {
     LCD.setCursor(8, 0);
     LCD.printSpacePaddedInt(encCount * 5);
+    if (setSpeed != 0) {
+      stable = (abs(encCount * 5 - setSpeed) * 1000 / setSpeed) < 10; // 1% tolerance
+    } else {
+      stable = encCount * 5 < 10;
+    }
+    if (stable && timerState == 1) {
+      timerState = 2;
+      lastStableTime = currTime;
+    }
     if (inputState) {
-      LCD.setCursor(12, 1);
+      LCD.setCursor(9, 1);
     }
     encCount = 0;
     lastSpeedUpdateTime = micros();

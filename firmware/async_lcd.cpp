@@ -166,6 +166,12 @@ void AsyncLCD::printSpacePaddedInt(int val) {
   print(buf);
 }
 
+void AsyncLCD::printZeroPaddedInt(int val) {
+  char buf[3];
+  sprintf(buf, "%02d", val);
+  print(buf);
+}
+
 void AsyncLCD::write(byte ch) {
   byte b = ch;
   enqueueData(&b, 1);
