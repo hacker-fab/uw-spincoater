@@ -110,7 +110,7 @@ void printElapsedTime() {
     if (dt <= 3599999999) {
       LCD.printZeroPaddedInt(dt / 60000000);
       LCD.print(":");
-      LCD.printZeroPaddedInt(dt / 1000000);
+      LCD.printZeroPaddedInt((dt / 1000000) % 60);
     } else {
       LCD.print("59:59");
     }
@@ -118,7 +118,7 @@ void printElapsedTime() {
     if (timerTime <= 3599999999) {
       LCD.printZeroPaddedInt(timerTime / 60000000);
       LCD.print(":");
-      LCD.printZeroPaddedInt(timerTime / 1000000);
+      LCD.printZeroPaddedInt((timerTime / 1000000) % 60);
     } else {
       LCD.print("59:59");
     }
